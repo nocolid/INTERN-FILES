@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Pixel Art Canvas Maker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Pixel Art Maker</h1>
+
+        <div class="canvas-container">
+            <div id="pixelCanvas"></div>
+        </div>
+
+        <div class="tools">
+            <div class="tool-row">
+                <div class="color-picker-container">
+                    <input type="color" id="colorPicker" value="#000000">
+                    <div class="current-color">
+                        <div class="color-display" id="colorDisplay"></div>
+                        <span id="colorHex">#000000</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette" id="palette"></div>
+
+            <div class="tool-row">
+                <button class="btn-clear" onclick="clearCanvas()">Clear Canvas</button>
+                <button class="btn-sample" onclick="loadVanGoghSample()">Van Gogh Sample</button>
+            </div>
+
+            <button class="btn-download" onclick="downloadCanvas()">Download PNG</button>
+
+            <div class="theme-toggle">
+                <button class="btn-theme btn-light" onclick="setTheme('light')">☀ Light Mode</button>
+                <button class="btn-theme btn-dark" onclick="setTheme('dark')">☾ Dark Mode</button>
+            </div>
+        </div>
+
+        <div class="size-info">Canvas: 25×35 pixels</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

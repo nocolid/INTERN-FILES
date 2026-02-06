@@ -1,0 +1,501 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Light Mode Colors */
+    --bg-primary: #fef8f0;
+    --bg-secondary: #f5e6d3;
+    --bg-tertiary: #ede0d4;
+    --bg-container: #fff9f0;
+    --bg-canvas: #fffef9;
+    --bg-tools: #f5e6d3;
+
+    --border-primary: #8b7355;
+    --border-secondary: #c9b8a8;
+
+    --accent-primary: #ffd1a3;
+    --accent-glow: rgba(255, 209, 163, 0.7);
+
+    --text-primary: #d4a574;
+    --text-secondary: #a68a6d;
+    --text-button: #8b7355;
+
+    --shadow-light: rgba(139, 115, 85, 0.2);
+    --shadow-medium: rgba(139, 115, 85, 0.3);
+    --scanline: rgba(139, 115, 85, 0.08);
+
+    --btn-clear: #ffc4d6;
+    --btn-clear-hover: #ffb3c9;
+    --btn-sample: #b8e0ff;
+    --btn-sample-hover: #a3d5ff;
+    --btn-download: #ffd1a3;
+    --btn-download-hover: #ffc285;
+}
+
+body[data-theme="dark"] {
+    /* Dark Mode Colors */
+    --bg-primary: #0f0f1e;
+    --bg-secondary: #1a1a2e;
+    --bg-tertiary: #0f3460;
+    --bg-container: #2d2d44;
+    --bg-canvas: #fff;
+    --bg-tools: #1a1a2e;
+
+    --border-primary: #000;
+    --border-secondary: #1a1a2e;
+
+    --accent-primary: #ffeb3b;
+    --accent-glow: rgba(255, 235, 59, 0.8);
+
+    --text-primary: #ffeb3b;
+    --text-secondary: #00d9ff;
+    --text-button: #fff;
+
+    --shadow-light: rgba(0, 0, 0, 0.5);
+    --shadow-medium: rgba(0, 0, 0, 0.5);
+    --scanline: rgba(0, 0, 0, 0.15);
+
+    --btn-clear: #ff6b9d;
+    --btn-clear-hover: #ff5a8d;
+    --btn-sample: #00d9ff;
+    --btn-sample-hover: #00c4e6;
+    --btn-download: #ffeb3b;
+    --btn-download-hover: #ffd700;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    background: var(--bg-primary);
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scanline) 2px, var(--scanline) 4px),
+        linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    transition: background 0.3s ease;
+}
+
+.container {
+    background: var(--bg-container);
+    border: 4px solid var(--border-primary);
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 4px var(--border-primary),
+        0 0 0 6px var(--accent-primary),
+        0 8px 0 6px var(--border-primary),
+        0 8px 20px 6px var(--shadow-medium),
+        inset 0 2px 0 0 rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    max-width: 350px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Pixel corners decoration */
+.container::before,
+.container::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-primary);
+    border: 2px solid var(--border-primary);
+    transition: all 0.3s ease;
+}
+
+.container::before {
+    top: -2px;
+    left: -2px;
+}
+
+.container::after {
+    top: -2px;
+    right: -2px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 12px;
+    margin-bottom: 15px;
+    text-shadow:
+        2px 2px 0 var(--border-primary),
+        4px 4px 0 var(--accent-glow);
+    letter-spacing: 2px;
+    animation: glitch 3s infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes glitch {
+    0%, 90%, 100% {
+        transform: translate(0);
+    }
+    92% {
+        transform: translate(-2px, 1px);
+    }
+    94% {
+        transform: translate(2px, -1px);
+    }
+    96% {
+        transform: translate(-1px, 2px);
+    }
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: auto;
+    border: 4px solid var(--border-primary);
+    box-shadow:
+        inset 0 0 0 2px var(--bg-secondary),
+        inset 0 0 0 4px var(--border-primary),
+        inset 4px 4px 0 4px var(--shadow-light),
+        0 4px 0 0 var(--border-secondary);
+    background: var(--bg-tools);
+    padding: 4px;
+    transition: all 0.3s ease;
+}
+
+#pixelCanvas {
+    display: grid;
+    gap: 0;
+    cursor: crosshair;
+    background: var(--bg-canvas);
+    border: 2px solid var(--border-primary);
+    image-rendering: pixelated;
+    transition: all 0.3s ease;
+}
+
+.pixel {
+    width: 10px;
+    height: 10px;
+    border: 0.5px solid var(--scanline);
+    transition: none;
+    image-rendering: pixelated;
+}
+
+.pixel:hover {
+    opacity: 1;
+    box-shadow: inset 0 0 0 1px var(--text-primary);
+}
+
+.tools {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tool-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.color-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    background: var(--bg-tools);
+    padding: 8px;
+    border: 3px solid var(--border-primary);
+    box-shadow:
+        inset 2px 2px 0 0 var(--shadow-light),
+        0 3px 0 0 var(--border-secondary);
+    transition: all 0.3s ease;
+}
+
+#colorPicker {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--border-primary);
+    cursor: pointer;
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 4px var(--border-primary),
+        inset 2px 2px 0 0 var(--shadow-light);
+    image-rendering: pixelated;
+}
+
+#colorPicker:active {
+    transform: translateY(2px);
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 4px var(--border-primary),
+        inset 2px 2px 0 0 var(--shadow-medium);
+}
+
+.current-color {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 8px;
+    color: var(--text-primary);
+    text-shadow: 1px 1px 0 var(--scanline);
+    transition: all 0.3s ease;
+}
+
+.color-display {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-primary);
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 4px var(--border-primary),
+        inset 2px 2px 0 0 var(--shadow-light);
+    image-rendering: pixelated;
+}
+
+#colorHex {
+    font-size: 7px;
+    letter-spacing: 1px;
+}
+
+button {
+    padding: 12px 16px;
+    border: 4px solid var(--border-primary);
+    cursor: pointer;
+    font-size: 8px;
+    font-weight: bold;
+    font-family: 'Press Start 2P', cursive;
+    transition: transform 0.1s, background 0.3s ease;
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 4px var(--border-primary),
+        0 6px 0 0 var(--border-primary),
+        inset 0 -4px 0 0 var(--shadow-light);
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 4px var(--border-primary),
+        0 8px 0 0 var(--border-primary),
+        inset 0 -4px 0 0 var(--shadow-light);
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 4px var(--border-primary),
+        0 2px 0 0 var(--border-primary),
+        inset 0 2px 0 0 var(--shadow-medium);
+}
+
+.btn-clear {
+    background: var(--btn-clear);
+    color: var(--text-button);
+    flex: 1;
+    text-shadow: 1px 1px 0 var(--scanline);
+}
+
+.btn-clear:hover {
+    background: var(--btn-clear-hover);
+}
+
+.btn-sample {
+    background: var(--btn-sample);
+    color: var(--text-button);
+    flex: 1;
+    text-shadow: 1px 1px 0 var(--scanline);
+}
+
+.btn-sample:hover {
+    background: var(--btn-sample-hover);
+}
+
+.btn-download {
+    background: var(--btn-download);
+    color: var(--text-button);
+    width: 100%;
+    text-shadow: 1px 1px 0 var(--scanline);
+}
+
+.btn-download:hover {
+    background: var(--btn-download-hover);
+}
+
+.size-info {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 7px;
+    margin-top: 12px;
+    text-shadow: 1px 1px 0 var(--scanline);
+    letter-spacing: 1px;
+    padding: 6px;
+    background: var(--bg-tools);
+    border: 2px solid var(--border-primary);
+    box-shadow: inset 1px 1px 0 0 var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.palette {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    padding: 8px;
+    background: var(--bg-tools);
+    border: 3px solid var(--border-primary);
+    box-shadow:
+        inset 2px 2px 0 0 var(--shadow-light),
+        0 3px 0 0 var(--border-secondary);
+    transition: all 0.3s ease;
+}
+
+.palette-color {
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: pointer;
+    border: 3px solid var(--border-primary);
+    transition: transform 0.1s;
+    box-shadow:
+        0 0 0 1px var(--bg-secondary),
+        0 0 0 3px var(--border-primary),
+        inset 1px 1px 0 0 rgba(255, 255, 255, 0.3);
+    image-rendering: pixelated;
+}
+
+.palette-color:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 0 1px var(--bg-secondary),
+        0 0 0 3px var(--border-primary),
+        0 0 8px 2px var(--accent-glow),
+        inset 1px 1px 0 0 rgba(255, 255, 255, 0.5);
+}
+
+.palette-color:active {
+    transform: scale(0.95);
+}
+
+.palette-color.active {
+    box-shadow:
+        0 0 0 2px var(--accent-primary),
+        0 0 0 4px var(--border-primary),
+        0 0 12px 2px var(--accent-glow),
+        inset 2px 2px 0 0 var(--shadow-light);
+    transform: scale(1.1);
+}
+
+/* Theme toggle buttons */
+.theme-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.btn-theme {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 7px;
+}
+
+.btn-light {
+    background: #fff9e6;
+    color: #8b7355;
+}
+
+.btn-light:hover {
+    background: #fff0c4;
+}
+
+.btn-dark {
+    background: #2d2d44;
+    color: #ffeb3b;
+}
+
+.btn-dark:hover {
+    background: #1a1a2e;
+}
+
+body[data-theme="light"] .btn-light,
+body[data-theme="dark"] .btn-dark {
+    box-shadow:
+        0 0 0 2px var(--accent-primary),
+        0 0 0 4px var(--border-primary),
+        0 4px 0 0 var(--border-primary),
+        inset 0 2px 0 0 var(--shadow-medium);
+    transform: translateY(2px);
+}
+
+/* Scanline effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        var(--scanline) 0px,
+        transparent 1px,
+        transparent 2px,
+        var(--scanline) 3px
+    );
+    pointer-events: none;
+    z-index: 1000;
+    animation: scanlines 8s linear infinite;
+}
+
+@keyframes scanlines {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(4px);
+    }
+}
+
+/* Pixel corner decorations at bottom */
+.container::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-primary);
+    border: 2px solid var(--border-primary);
+    transition: all 0.3s ease;
+}
+
+/* Additional retro touches */
+@media (hover: hover) {
+    button::before {
+        content: '▶';
+        position: absolute;
+        left: 8px;
+        opacity: 0;
+        transition: opacity 0.1s;
+    }
+
+    button:hover::before {
+        opacity: 1;
+        animation: blink 0.5s step-end infinite;
+    }
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
